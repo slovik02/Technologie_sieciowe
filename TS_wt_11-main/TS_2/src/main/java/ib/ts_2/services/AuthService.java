@@ -1,6 +1,5 @@
 package ib.ts_2.services;
 
-import ib.ts_2.CommonTypes.UserRole;
 import ib.ts_2.controller.Login;
 import ib.ts_2.controller.LoginResponse;
 import ib.ts_2.controller.Register;
@@ -9,11 +8,13 @@ import ib.ts_2.entity.Auth;
 import ib.ts_2.entity.User;
 import ib.ts_2.repository.AuthRepository;
 import ib.ts_2.repository.UserRepository;
+import ib.ts_2.services.error.EmailAlreadyExistException;
+import ib.ts_2.services.error.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -36,6 +37,17 @@ public class AuthService {
     }
 
     public RegisterResponse register(Register dto){
+
+        Optional<Auth> existingAuth = authRepository.findByUsername(dto.getUsername());
+        if (existingAuth.isPresent()){
+            throw UserAlreadyExistsException.create(dto.getUsername());
+        }
+
+        Optional<Auth> existingEmail = authRepository.findByEmail(dto.getEmail());
+        if (existingEmail.isPresent()){
+            throw EmailAlreadyExistException.create(dto.getEmail());
+        }
+
         User user = new User();
         user.setEmail(dto.getEmail());
         userRepository.save(user);
@@ -45,10 +57,11 @@ public class AuthService {
         auth.setUsername(dto.getUsername());
         auth.setRole(dto.getRole());
         auth.setUser(user);
+        auth.setEmail(dto.getEmail());
 
         authRepository.save(auth);
 
-        return new RegisterResponse(user.getUser_id(), auth.getUsername(), auth.getRole());
+        return new RegisterResponse(user.getUser_id(), auth.getUsername(), auth.getRole(), auth.getEmail());
     }
 
     public LoginResponse login(Login dto){

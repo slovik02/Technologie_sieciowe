@@ -25,14 +25,13 @@ public class AuthController {
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('ADMIN')")
-
     public ResponseEntity<RegisterResponse> register(@RequestBody Register requestBody){
         RegisterResponse dto = authService.register(requestBody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<LoginResponse> login(@RequestBody Login requestBody){
         LoginResponse dto = authService.login(requestBody);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);

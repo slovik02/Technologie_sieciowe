@@ -14,6 +14,8 @@ public class Auth {
 
     private String password;
 
+    private String email;
+
     @Enumerated(EnumType.STRING)  // role of the user
     private UserRole role;
 
@@ -60,4 +62,13 @@ public class Auth {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
