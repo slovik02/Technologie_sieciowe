@@ -22,7 +22,9 @@ import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
+    /*
+      Filter for JWT authentication.
+     */
     private final JwtService jwtService;
 
     @Autowired
@@ -33,6 +35,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        /*
+          Filters each incoming HTTP request to authenticate users using JWT.
+          @param request The HTTP servlet request.
+         * @param response The HTTP servlet response.
+         * @param filterChain The filter chain.
+         * @throws ServletException If a servlet-related exception occurs.
+         * @throws IOException If an I/O-related exception occurs.
+         */
         try{
             String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             final String jwt;

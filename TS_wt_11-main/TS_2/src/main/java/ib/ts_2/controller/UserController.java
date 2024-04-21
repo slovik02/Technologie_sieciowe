@@ -27,7 +27,16 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public User addUser(@RequestBody User user){return userService.create(user);}
+    public User addUser(@RequestBody User user){
+        return userService.create(user);
+    }
 
+    @DeleteMapping("/delete/{id}")
+    public User delete(@PathVariable long id){return userService.delete(id);}
+
+    @PatchMapping("update/{id}")
+    public User updateUser(@PathVariable long id, @RequestBody User userUpdates) {
+        return userService.update(userUpdates, id);
+    }
 
 }

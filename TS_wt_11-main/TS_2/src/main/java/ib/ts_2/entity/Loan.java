@@ -7,6 +7,9 @@ import java.util.List;
 
 @Entity
 public class Loan {
+    /**
+     * Represents a loan entity in the system
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

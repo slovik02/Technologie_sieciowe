@@ -17,7 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-
+    /*
+      Configuration class for security settings.
+     */
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
@@ -27,6 +29,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+        /*
+          Configures security filters.
+          @param http The HTTP security configuration.
+         * @return The security filter chain.
+         * @throws Exception If an error occurs during configuration.
+         */
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -37,11 +45,21 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+         /*
+          Provides a password encoder bean.
+          @return The password encoder.
+         */
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+        /*
+          Provides an authentication manager bean.
+          @param config The authentication configuration.
+         * @return The authentication manager.
+         * @throws Exception If an error occurs while getting the authentication manager.
+         */
         return config.getAuthenticationManager();
     }
 }

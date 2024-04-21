@@ -6,16 +6,12 @@ public class RegisterResponse {
 
     private long userID;
     private String username;
-
-    private String email;
-
     private UserRole role;
 
-    public RegisterResponse(long userID, String username, UserRole role, String email) {
+    public RegisterResponse(long userID, String username, UserRole role) {
         this.userID = userID;
         this.username = username;
         this.role = role;
-        this.email = email;
     }
 
     public long getUserID() {
@@ -40,13 +36,5 @@ public class RegisterResponse {
 
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

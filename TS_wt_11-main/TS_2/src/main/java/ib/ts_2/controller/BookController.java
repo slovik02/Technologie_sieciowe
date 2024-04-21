@@ -1,9 +1,10 @@
 package ib.ts_2.controller;
 
 import ib.ts_2.entity.Book;
-import ib.ts_2.repository.BookRepository;
+import ib.ts_2.entity.User;
 import ib.ts_2.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,10 +31,25 @@ public class BookController{
         return bookService.getOne(id);
     }
 
+    @GetMapping("/getByTitle/{title}")
+    public Book getByTitle(@PathVariable String title){
+        return bookService.getByTitle(title);
+    }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public Book addBook(@RequestBody Book book){
         return bookService.create(book);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
+    public User deleteBook(@PathVariable long id){return bookService.deleteBook(id);}
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("update/{id}")
+    public Book updateBook(@PathVariable long id, @RequestBody Book bookUpdates) {
+        return bookService.updateBook(bookUpdates, id);
     }
 
 }

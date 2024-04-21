@@ -1,26 +1,29 @@
 package ib.ts_2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 public class User {
+    /**
+     * Represents a user entity in the system
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer user_id;
 
-    private String user_name;
-
-    private String password;
-
-    private String role;
+    private String username;
 
     private String email;
 
     private String full_name;
 
+    private String surname;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Loan> loan;
 
@@ -35,28 +38,13 @@ public class User {
         this.user_id = user_id;
     }
 
-    public String getUser_name() {
-        return user_name;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -81,5 +69,13 @@ public class User {
 
     public void setLoan(List<Loan> loan) {
         this.loan = loan;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

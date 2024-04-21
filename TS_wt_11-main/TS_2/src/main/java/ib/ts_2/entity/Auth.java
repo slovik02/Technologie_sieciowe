@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 
 @Entity
 public class Auth {
-    // it contains authorizations info
+    /**
+     * Represents an auth entity in the system, contains authorization info
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer auth_id;
@@ -14,7 +17,6 @@ public class Auth {
 
     private String password;
 
-    private String email;
 
     @Enumerated(EnumType.STRING)  // role of the user
     private UserRole role;
@@ -61,14 +63,6 @@ public class Auth {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
 }

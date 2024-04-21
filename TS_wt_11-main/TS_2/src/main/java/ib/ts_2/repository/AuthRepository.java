@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface AuthRepository extends CrudRepository<Auth, Long> {
     Optional<Auth> findByUsername(String username);
 
-    Optional<Auth> findByEmail(String email);
 }

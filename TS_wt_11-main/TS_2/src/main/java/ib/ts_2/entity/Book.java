@@ -1,11 +1,15 @@
 package ib.ts_2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 public class Book {
+    /**
+     * Represents a book entity in the system
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +27,8 @@ public class Book {
 
     private Integer availableCopies;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "book")
     private List<Loan> loan;
 

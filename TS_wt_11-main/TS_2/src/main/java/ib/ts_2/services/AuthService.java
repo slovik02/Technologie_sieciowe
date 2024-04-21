@@ -8,7 +8,6 @@ import ib.ts_2.entity.Auth;
 import ib.ts_2.entity.User;
 import ib.ts_2.repository.AuthRepository;
 import ib.ts_2.repository.UserRepository;
-import ib.ts_2.services.error.EmailAlreadyExistException;
 import ib.ts_2.services.error.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class AuthService {
+    /*
+      Service class for authentication operations.
+     */
     private final AuthRepository authRepository;
 
     private final UserRepository userRepository;
@@ -37,19 +39,20 @@ public class AuthService {
     }
 
     public RegisterResponse register(Register dto){
-
+        /*
+          Registers a new user.
+          @param dto The registration details.
+         * @return The registration response.
+         * @throws UserAlreadyExistsException if a user with the given username already exists.
+         */
         Optional<Auth> existingAuth = authRepository.findByUsername(dto.getUsername());
         if (existingAuth.isPresent()){
             throw UserAlreadyExistsException.create(dto.getUsername());
         }
 
-        Optional<Auth> existingEmail = authRepository.findByEmail(dto.getEmail());
-        if (existingEmail.isPresent()){
-            throw EmailAlreadyExistException.create(dto.getEmail());
-        }
-
         User user = new User();
         user.setEmail(dto.getEmail());
+        user.setUsername(dto.getUsername());
         userRepository.save(user);
 
         Auth auth = new Auth();
@@ -57,14 +60,19 @@ public class AuthService {
         auth.setUsername(dto.getUsername());
         auth.setRole(dto.getRole());
         auth.setUser(user);
-        auth.setEmail(dto.getEmail());
 
         authRepository.save(auth);
 
-        return new RegisterResponse(user.getUser_id(), auth.getUsername(), auth.getRole(), auth.getEmail());
+        return new RegisterResponse(user.getUser_id(), auth.getUsername(), auth.getRole());
     }
 
     public LoginResponse login(Login dto){
+        /*
+          Logs in a user.
+          @param dto The login details.
+         * @return The login response containing the JWT token.
+         * @throws RuntimeException if the username or password is incorrect.
+         */
         Auth auth = authRepository.findByUsername(dto.getUsername()).orElseThrow(RuntimeException::new);
 
         if(!passwordEncoder.matches(dto.getPassword(), auth.getPassword())){
