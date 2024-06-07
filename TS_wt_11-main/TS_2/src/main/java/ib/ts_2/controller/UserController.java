@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -27,6 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
+    // tego nie używać, user musi się zarejestrować
     public User addUser(@RequestBody User user){
         return userService.create(user);
     }
